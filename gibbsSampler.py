@@ -52,13 +52,39 @@ class Sequence:
         tot = float(sum(self.siteScores))
         siteProbs = [x / tot for x in self.siteScores]
 
-    # draw randomly according to this distribution
-    # -------------------------
-    # PUT YOUR CODE HERE
+        # draw randomly according to this distribution
+        # -------------------------
+        # PUT YOUR CODE HERE
 
-    # print "drawNewMotifSite() not yet implemented!"
+        #Makes siteProbs cumulative
+        cumSiteProbs = [None]*len(siteProbs)
+        cumProb = 0
+        for x in range(0,len(siteProbs)):
+            cumSiteProbs[x] = siteProbs[x] + cumProb
+            cumProb = cumSiteProbs[x]
 
-    # -------------------------
+        print "siteProbs:",siteProbs
+        print "cumSiteProbs:", cumSiteProbs
+        print cumProb
+
+        U = random.uniform(0,1)
+        print U
+
+        #Adding in the bottom of the probability distribution
+        cumSiteProbs.insert(0,0.0)
+
+        for site in range(0,len(cumSiteProbs)):
+            if (cumSiteProbs[site-1] <= U) & (cumSiteProbs[site] > U):
+                newMotifSite = site
+                print "Found newMotifSite!"
+            else:
+                print "U wasn't found in cumSiteProbs!"
+
+        self.motif = newMotifSite
+
+        # print "drawNewMotifSite() not yet implemented!"
+
+        # -------------------------
 
     def updateSiteScores(self, wmat, background):
         # updates the odds ratios for motifs beginning at each site in
@@ -147,7 +173,7 @@ def findSimpleBackgroundModel(sequences):
         background[nt] = float(background[nt])/float(totalnts)
 
     #print "findSimpleBackgroundModel() not yet implemented!"
-
+    print "Background frequencies are ", background
     # -------------------------
     return background
 

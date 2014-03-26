@@ -102,7 +102,7 @@ def findSimpleBackgroundModel(sequences):
         background[nt] = float(background[nt])/float(totalnts)
 
     #print "findSimpleBackgroundModel() not yet implemented!"
-
+    print background
     # -------------------------
     return(background)
 

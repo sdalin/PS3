@@ -18,7 +18,7 @@ to drawNewMotifSite(), where probability of choosing
 a site is proportional to the odds ratios in self.siteScores
 (therefore, initially uniform).
 
-2) Complete the findSimpleBackgroundModel() function. This just returns
+2) [COMPLETED] Complete the findSimpleBackgroundModel() function. This just returns
 the overall frequency of each nucleotide in the input sequences. For
 example, if your input file was just
 >seq1
