@@ -222,8 +222,13 @@ def buildWeightMatrix(seqsToScore):
                 wmat[int(nt)]['T'] += 1
             else:
                 print "buildWeightMatrix is broken!"
-
+        print sequenceStr
+        print wmat
         seqLen.append(nts)
+
+
+    print sequenceStr
+    print wmat
 
     for dict in range(0,len(wmat)):
         print seqLen
