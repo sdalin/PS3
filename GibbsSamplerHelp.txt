@@ -27,7 +27,7 @@ ATGG
 TTCG
 what should findSimpleBackgroundModel(sequences) return?
 
-3) Complete the drawNewMotifSite() method that is a part of the Sequence
+3) [COMPLETED] Complete the drawNewMotifSite() method that is a part of the Sequence
 class. You need to figure out a way to randomly draw from a discrete
 distribution (in this case, the probability of the motif at each position,
 which is given by the normalized self.siteScores vector - the 

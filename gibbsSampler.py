@@ -24,7 +24,10 @@ class Sequence:
         self.sequence = seq
         self.siteScores = [1 for i in range(len(seq) - motifWidth + 1)] + \
                           [0 for i in range(motifWidth - 1)]
+
+        #NOTE: running drawNewMotifSite() here makes it run for every sequence in the file you read in! (ie, 75 times!)
         self.drawNewMotifSite()
+
 
     def getMotif(self, *pos):
         # returns the motif of length motifWidth can either specify a position
@@ -52,6 +55,7 @@ class Sequence:
         tot = float(sum(self.siteScores))
         siteProbs = [x / tot for x in self.siteScores]
 
+
         # draw randomly according to this distribution
         # -------------------------
         # PUT YOUR CODE HERE
@@ -63,12 +67,16 @@ class Sequence:
             cumSiteProbs[x] = siteProbs[x] + cumProb
             cumProb = cumSiteProbs[x]
 
-        print "siteProbs:",siteProbs
-        print "cumSiteProbs:", cumSiteProbs
-        print cumProb
+        #The following display the siteProbs and cumSiteProbs, but it gets ugly when this is run 75 times
+        #when reading in files so I commented it out.
 
+        # print "siteProbs:",siteProbs
+        # print "cumSiteProbs:", cumSiteProbs
+        # print cumProb
+        #
         U = random.uniform(0,1)
-        print U
+        # print U
+
 
         #Adding in the bottom of the probability distribution
         cumSiteProbs.insert(0,0.0)
@@ -76,12 +84,8 @@ class Sequence:
         for site in range(0,len(cumSiteProbs)):
             if (cumSiteProbs[site-1] <= U) & (cumSiteProbs[site] > U):
                 newMotifSite = site
-                print "Found newMotifSite!"
-            else:
-                print "U wasn't found in cumSiteProbs!"
 
         self.motif = newMotifSite
-
         # print "drawNewMotifSite() not yet implemented!"
 
         # -------------------------
@@ -138,6 +142,7 @@ def readFastaFile(filename):
             curSeq = curSeq + line.strip().upper()
     if curName != None:
         seqList.append(Sequence(curName, curSeq))
+
     return seqList
 
 
@@ -180,14 +185,13 @@ def findSimpleBackgroundModel(sequences):
 
 def buildWeightMatrix(seqsToScore):
     # Builds weight matrix from motifs in all sequences except the leaveOut
-    # sequence You should include pseudocounts at each position. INPUTS:
+    # sequence. You should include pseudocounts at each position. INPUTS:
     #	seqsToScore - a list of Sequence objects (left out sequence already
     #	omitted)
-    # OUTPUT: wmat - a list of length motifWidth, where each element corresponds
-    # to a
-    #	position of the motif and contains a dictionary with keys = nt
-    #	describing the nt distribution at that position
-    # 	(so wmat[3]['A'] corresponds to fraction As at position 3 in motif)
+    #   OUTPUT: wmat - a list of length motifWidth, where each element corresponds
+    #   to a position of the motif and contains a dictionary with keys = nt
+    #   describing the nt distribution at that position
+    #   (so wmat[3]['A'] corresponds to fraction As at position 3 in motif)
     #
     # initialize with pseudocounts at each position
     wmat = []
@@ -199,7 +203,36 @@ def buildWeightMatrix(seqsToScore):
     # -------------------------
     # PUT YOUR CODE HERE
 
-    print "buildWeightMatrix() not yet implemented!"
+    seqLen = [0]
+    for sequenceObject in seqsToScore:
+
+        sequenceStr = sequenceObject.getMotif()
+        print 'hello'
+        nts = 0
+
+        for nt in range(0,len(sequenceStr)):
+            nts += 1
+            if sequenceStr[nt] == 'A':
+                wmat[int(nt)]['A'] += 1
+            elif sequenceStr[nt] == 'C':
+                wmat[int(nt)]['C'] += 1
+            elif sequenceStr[nt] == 'G':
+                wmat[int(nt)]['G'] += 1
+            elif sequenceStr[nt] == 'T':
+                wmat[int(nt)]['T'] += 1
+            else:
+                print "buildWeightMatrix is broken!"
+
+        seqLen.append(nts)
+
+    for dict in range(0,len(wmat)):
+        print seqLen
+        print dict
+        print 'seq len ', seqLen[dict]
+        for base in wmat[dict].iterkeys():
+            wmat[dict][base] = float(wmat[dict][base]) / float(seqLen[dict])
+
+    #print "buildWeightMatrix() not yet implemented!"
 
     # -------------------------
 
@@ -276,7 +309,7 @@ def run(numIter):  # this is the main function
     # (STEP 1) pick starting sites at random done when initializing each
     # Sequence object in the readFastaFile() function - see drawNewMotifSite()
     # under Sequence class
-    print "drawNewMotifSite() not yet implemented!"
+    Sequence.drawNewMotifSite
 
     # Repeat the following steps numIter times
     for iter in range(numIter):
