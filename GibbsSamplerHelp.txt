@@ -41,7 +41,7 @@ it calls drawNewMotifSite(). Later calls of this method
 will use updated siteScores and will be biased towards some
 locations more than others.
 
-4) Complete the buildWeightMatrix() function. This function should loop
+4) [COMPLETED]  Complete the buildWeightMatrix() function. This function should loop
 through all the sequences in seqsToScore. You can use getMotif() method
 (without any arguments) to get a particular sequence's current motif
 (current motif location is in Sequence.motif field). Note
@@ -53,7 +53,7 @@ get distributions over {A,T,G,C} for each position after getting all
 the counts. Note - it's much easier to test this
 with a small input file!
 
-5) Complete the updateSiteScores() function. When this method is called
+5) [COMPLETE] Complete the updateSiteScores() function. When this method is called
 from a particular Sequence object (see run()), this Sequence object's
 siteScores field will be updated to reflect the current
 weight matrix model. For each position in sequence, you need to

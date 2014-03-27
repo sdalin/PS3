@@ -94,9 +94,8 @@ class Sequence:
         # updates the odds ratios for motifs beginning at each site in
         # self.siteScores, where odds ratio = P(motif | wmat) / P(motif |
         # background) = Pm / Pb, according to current wmat INPUTS:
-        #	wmat - weight matrix of current motif model in format from
-        #	buildWeightMatrix() background - background nucleotide frequencies
-        #	from findSimpleBackgroundModel()
+        #	wmat - weight matrix of current motif model in format from buildWeightMatrix()
+        #   background - background nucleotide frequencies from findSimpleBackgroundModel()
         # OUTPUTS: none, but updates the current value of self.siteScores
         #
         # at each site in self.sequence, calculate Pm / Pb (note that the last
@@ -105,8 +104,27 @@ class Sequence:
         # self.siteScores with the new values
         # -------------------------
         # PUT YOUR CODE HERE
-        #
-        print "updateSiteScores() not yet implemented!"
+
+        Pm = [1]*len(self.siteScores)
+        Pb = [1]*len(self.siteScores)
+
+        #site iterates over all nts in sequence
+        for site in range(len(self.siteScores)-motifWidth+1):
+            #base iterates over motifWidth nts starting at 'site'
+            for base in range(site,site+motifWidth):
+                Pm[site] = Pm[site] * wmat[base-site][self.sequence[base]]
+                Pb[site] = Pb[site] * background[self.sequence[base]]
+
+            self.siteScores[site] = Pm[site] / Pb[site]
+
+        print 'sequence', self.sequence
+        print wmat
+        print background
+        print 'Pm', Pm
+        print 'Pb', Pb
+        print 'siteScores', self.siteScores
+
+        #print "updateSiteScores() not yet implemented!"
 
         # -------------------------
 
@@ -203,7 +221,7 @@ def buildWeightMatrix(seqsToScore):
     # -------------------------
     # PUT YOUR CODE HERE
 
-
+    print "Motifs tested:"
     for sequenceObject in seqsToScore:
         motifStr = sequenceObject.getMotif()
 
@@ -219,14 +237,12 @@ def buildWeightMatrix(seqsToScore):
             else:
                 print "buildWeightMatrix is broken!"
         print motifStr
-        print wmat
+
 
     #divide all dict values by #seqs + 1
     for dict in range(0,len(wmat)):
-        print dict
         for base in wmat[dict].iterkeys():
             wmat[dict][base] = float(wmat[dict][base]) / float(len(seqsToScore)+1)
-    print wmat
     #print "buildWeightMatrix() not yet implemented!"
 
     # -------------------------
@@ -239,8 +255,8 @@ def printWeightMatrix(wmat):
     # human-friendly version
     print "Pos\tA\tC\tG\tT"
     for i in range(0, motifWidth):
-        print str(i) + '\t' + str(wmat[i]['A']) + '\t' + str(wmat[i]['C']) + \
-              '\t' + str(wmat[i]['G']) + '\t' + str(wmat[i]['T'])
+        print str(i) + '\t' + str(round(wmat[i]['A'],3)) + '\t' + str(round(wmat[i]['C'],3)) + \
+              '\t' + str(round(wmat[i]['G'],3)) + '\t' + str(round(wmat[i]['T'],3))
 
 
 def calcRelEnt(wmat, background):
