@@ -75,15 +75,15 @@ class Sequence:
         # print cumProb
         #
         U = random.uniform(0,1)
-        # print U
+        #print U
 
 
         #Adding in the bottom of the probability distribution
         cumSiteProbs.insert(0,0.0)
 
-        for site in range(0,len(cumSiteProbs)):
+        for site in range(1,len(cumSiteProbs)):
             if (cumSiteProbs[site-1] <= U) & (cumSiteProbs[site] > U):
-                newMotifSite = site
+                newMotifSite = site-1
 
         self.motif = newMotifSite
         # print "drawNewMotifSite() not yet implemented!"
@@ -203,40 +203,30 @@ def buildWeightMatrix(seqsToScore):
     # -------------------------
     # PUT YOUR CODE HERE
 
-    seqLen = [0]
+
     for sequenceObject in seqsToScore:
+        motifStr = sequenceObject.getMotif()
 
-        sequenceStr = sequenceObject.getMotif()
-        print 'hello'
-        nts = 0
-
-        for nt in range(0,len(sequenceStr)):
-            nts += 1
-            if sequenceStr[nt] == 'A':
+        for nt in range(0,len(motifStr)):
+            if motifStr[nt] == 'A':
                 wmat[int(nt)]['A'] += 1
-            elif sequenceStr[nt] == 'C':
+            elif motifStr[nt] == 'C':
                 wmat[int(nt)]['C'] += 1
-            elif sequenceStr[nt] == 'G':
+            elif motifStr[nt] == 'G':
                 wmat[int(nt)]['G'] += 1
-            elif sequenceStr[nt] == 'T':
+            elif motifStr[nt] == 'T':
                 wmat[int(nt)]['T'] += 1
             else:
                 print "buildWeightMatrix is broken!"
-        print sequenceStr
+        print motifStr
         print wmat
-        seqLen.append(nts)
 
-
-    print sequenceStr
-    print wmat
-
+    #divide all dict values by #seqs + 1
     for dict in range(0,len(wmat)):
-        print seqLen
         print dict
-        print 'seq len ', seqLen[dict]
         for base in wmat[dict].iterkeys():
-            wmat[dict][base] = float(wmat[dict][base]) / float(seqLen[dict])
-
+            wmat[dict][base] = float(wmat[dict][base]) / float(len(seqsToScore)+1)
+    print wmat
     #print "buildWeightMatrix() not yet implemented!"
 
     # -------------------------
