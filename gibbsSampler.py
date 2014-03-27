@@ -262,7 +262,7 @@ def printWeightMatrix(wmat):
 def calcRelEnt(wmat, background):
     # calculates the relative entropy of the weight matrix model wmat to the
     # background (assume every position is independent), use math.log(x,2) to
-    # take the log2 of x INPUTS:
+    # take the log2 of x. INPUTS:
     #	wmat - weight matrix in format given by buildWeightMatrix() background
     #	- background nt distribution in format given by
     #	findSimpleBackgroundModel()
@@ -272,8 +272,18 @@ def calcRelEnt(wmat, background):
     # -------------------------
     # PUT YOUR CODE HERE
 
-    print "calcRelEnt() not yet implemented!"
-    return 0.0
+    RelEnt = 0.0
+    for position in range(len(wmat)):
+        for nt in wmat[position]:
+            PkQk = float(wmat[position][nt]) / float(background[nt])
+            #print "PkQk position", position, "nt", nt, ":", PkQk
+            Log2 =  math.log((float(wmat[position][nt]) / float(background[nt])),2)
+            #print "Log2 PkQk position", position, "nt", nt, ":", Log2
+            RelEnt = float(RelEnt) + float(wmat[position][nt]) * math.log((float(wmat[position][nt]) / float(background[nt])),2)
+
+    #print "calcRelEnt() not yet implemented!"
+    #print "RelEnt:", RelEnt
+    return RelEnt
 
 
 # -------------------------

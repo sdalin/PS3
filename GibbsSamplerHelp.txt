@@ -62,7 +62,7 @@ probability under the background Pb. The score is simply the odds
 ratio Pm / Pb. Change the value of self.siteScores to reflect these
 updated values.
 
-6) Implement the calcRelEnt function. Here we assume every position is
+6) [COMPLETE] Implement the calcRelEnt function. Here we assume every position is
 independent, but the background is NOT uniformly distributed across the
 4 bases at each position, so you need to
 use the full formula (given in the HW description and the slides).
