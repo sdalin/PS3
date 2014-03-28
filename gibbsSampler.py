@@ -117,12 +117,12 @@ class Sequence:
 
             self.siteScores[site] = Pm[site] / Pb[site]
 
-        print 'sequence', self.sequence
-        print wmat
-        print background
-        print 'Pm', Pm
-        print 'Pb', Pb
-        print 'siteScores', self.siteScores
+        # print 'sequence', self.sequence
+        # print wmat
+        #print background
+        # print 'Pm', Pm
+        # print 'Pb', Pb
+        # print 'siteScores', self.siteScores
 
         #print "updateSiteScores() not yet implemented!"
 
@@ -221,7 +221,7 @@ def buildWeightMatrix(seqsToScore):
     # -------------------------
     # PUT YOUR CODE HERE
 
-    print "Motifs tested:"
+    #print "Motifs tested:"
     for sequenceObject in seqsToScore:
         motifStr = sequenceObject.getMotif()
 
@@ -236,7 +236,7 @@ def buildWeightMatrix(seqsToScore):
                 wmat[int(nt)]['T'] += 1
             else:
                 print "buildWeightMatrix is broken!"
-        print motifStr
+        #print motifStr
 
 
     #divide all dict values by #seqs + 1
@@ -308,6 +308,7 @@ def printToLogo(sequences):
 
 def run(numIter):  # this is the main function
 
+    relative_entropy_list = [None]*numIter
     # Get file name and motifWidth from command line
     if len(sys.argv) <= 2:
         print "Error-please specify a fasta file and motif width as inputs"
@@ -334,6 +335,7 @@ def run(numIter):  # this is the main function
 
     # Repeat the following steps numIter times
     for iter in range(numIter):
+
         # (STEP 2) choose sequence to leave out index of sequence to be left out
         leaveOut = random.randint(0, len(sequences) - 1)
         # make list of sequences with that element left out
@@ -351,31 +353,33 @@ def run(numIter):  # this is the main function
         # according to new distribution
         sequences[leaveOut].drawNewMotifSite()
 
-    # print relative entropy at each iteration (use this to make plot for
-    # (A), or store in a list and use the code below)
-    # print "Relative entropy =",calcRelEnt(wmat, background)
+        # print relative entropy at each iteration (use this to make plot for
+        # (A), or store in a list and use the code below)
+        relative_entropy_list[iter] = calcRelEnt(wmat, background)
 
     # Print final motif matrix, its total score and its relative entropy
     # compared to background:
     print "Final weight matrix:"
     printWeightMatrix(wmat)
     # uncomment last line after implementing getMotifScore()
-    # print "Motif score =",getMotifScore(sequences, wmat, background)
+    print "Motif score =",getMotifScore(sequences, wmat, background)
+    motifScore = float(getMotifScore(sequences, wmat, background))
     print "Final relative entropy =", calcRelEnt(wmat, background)
 
-# if you've saved the relative entropy at each iteration in a list named
-# relative_entropy_list, you can plot the data with code similar to below -
-# note that you must have the matplotlib module to use this)
+    # if you've saved the relative entropy at each iteration in a list named
+    # relative_entropy_list, you can plot the data with code similar to below -
+    # note that you must have the matplotlib module to use this)
 
-# import matplotlib.pyplot as plt
-# x_nums = range(1, len(relative_entropy_list) + 1)
-# plt.plot(x_nums,relative_entropy_list, 'ro')
-# plt.title('Relative Entropy of seqsA')
-# plt.xlabel('Gibbs sampler iteration')
-# plt.ylabel('Relative Entropy of Motif')
-# plt.show()
-
+    import matplotlib.pyplot as plt
+    x_nums = range(1, len(relative_entropy_list) + 1)
+    plt.plot(x_nums,relative_entropy_list, 'ro')
+    plt.title('Relative Entropy of seqsA with Motif Score %f' % motifScore)
+    plt.xlabel('Gibbs sampler iteration')
+    plt.ylabel('Relative Entropy of Motif')
+    plt.gcf()
+    plt.savefig('RelEntPlot.pdf')
+    plt.show()
 
 # run main function, argument = # of iterations to run Gibbs sampler
-run(1)
+run(1000)
 

@@ -1,0 +1,17 @@
+Motif Score: 640.0
+Final Relative Entropy: 7.86
+Background frequencies are  {'A': 0.29777777777777775, 'C': 0.23466666666666666, 'T': 0.28844444444444445, 'G': 0.1791111111111111}
+Final Weight Matrix:
+Final weight matrix:
+Pos     A       C       G       T
+0       0.813   0.027   0.08    0.12
+1       0.04    0.12    0.187   0.693
+2       0.04    0.867   0.12    0.013
+3       0.027   0.04    0.013   0.96
+4       0.08    0.907   0.013   0.04
+5       0.92    0.04    0.067   0.013
+6       0.813   0.093   0.013   0.12
+
+Shape of the relative entropy vs iterations graph is approximately exponential.
+
+The consensus motif is ATCTCAA
